@@ -16,7 +16,7 @@ if [ "$USER_ID" -ne 0 ]; then
     echo -e "\e[31m You should run your script as sudo or root user \e[0m"
     exit 1
 fi
-print "installing Nginx"
+print "Installing Nginx"
 yum install nginx -y &>> /tmp/logfile.txt
 statuscheck $?
 print "Downloading Nginx content"
@@ -32,7 +32,7 @@ statuscheck $?
 print "Update roboshop Configuration"
 mv localhost.conf /etc/nginx/default.d/roboshop.conf &>> /tmp/logfile.txt
 statuscheck $?
-print "starting Nginx"
+print "Starting Nginx"
 systemctl restart nginx &>> /tmp/logfile.txt && systemctl enable nginx &>> /tmp/logfile.txt
 statuscheck $?
 
