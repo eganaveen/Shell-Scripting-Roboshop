@@ -20,15 +20,16 @@ print "installing Nginx"
 yum install nginx -y
 statuscheck $?
 print "Downloading Nginx content"
-curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip"
+curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zi"
 statuscheck $?
-print "Cleanup old nginx content and Extract new download archive file and load confiuration file"
+print "Cleanup old nginx content"
 cd /usr/share/nginx/html
 rm -rf *
-unzip /tmp/frontend.zip
-mv frontend-main/* .
-mv static/* .
-rm -rf frontend-main README.md
+statuscheck $?
+print "Extracting Archive"
+unzip /tmp/frontend.zip && mv frontend-main/* . && mv static/* .
+statuscheck $?
+print "Update RoboShop Configuration"
 mv localhost.conf /etc/nginx/default.d/roboshop.conf
 statuscheck $?
 print "starting Nginx"
