@@ -1,1 +1,3 @@
-echo This is front end.
+yum install nginx -y
+systemctl enable nginx
+systemctl start nginx
