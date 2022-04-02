@@ -8,18 +8,21 @@ statuscheck(){
       exit 1
   fi
 }
+print(){
+  echo -e "\e[36m $1 \e[0m"
+}
 USER_ID=$(id -u)
 if [ "$USER_ID" -ne 0 ]; then
     echo -e "\e[31m You should run your script as sudo or root user \e[0m"
     exit 1
 fi
-echo -e "\e[36m installing Nginx \e[0m"
+print "installing Nginx"
 yum install nginx -y
 statuscheck $?
-echo -e "\e[36m Downloading Nginx content \e[0m"
+print "Downloading Nginx content"
 curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zi"
 statuscheck $?
-echo -e "\e[36m Cleanup old nginx content and Extract new download archive file and load confiuration file \e[0m"
+print "Cleanup old nginx content and Extract new download archive file and load confiuration file"
 cd /usr/share/nginx/html
 rm -rf *
 unzip /tmp/frontend.zip
@@ -28,7 +31,7 @@ mv static/* .
 rm -rf frontend-main README.md
 mv localhost.conf /etc/nginx/default.d/roboshop.conf
 statuscheck $?
-echo -e "\e[36m starting Nginx \e[0m"
+print "starting Nginx"
 systemctl restart nginx
 statuscheck $?
 systemctl enable nginx
