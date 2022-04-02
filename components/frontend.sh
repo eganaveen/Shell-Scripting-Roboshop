@@ -16,24 +16,26 @@ if [ "$USER_ID" -ne 0 ]; then
     echo -e "\e[31m You should run your script as sudo or root user \e[0m"
     exit 1
 fi
+rm -rf /tmp/logfile.txt
+statuscheck $?
 print "Installing Nginx"
-yum install nginx -y &> /tmp/logfile.txt
+yum install nginx -y &>> /tmp/logfile.txt
 statuscheck $?
 print "Downloading Nginx content"
-curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip" &> /tmp/logfile.txt
+curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip" &>> /tmp/logfile.txt
 statuscheck $?
 print "Cleanup old nginx content"
 cd /usr/share/nginx/html
 rm -rf *
 statuscheck $?
 print "Extracting Archive"
-unzip /tmp/frontend.zip &> /tmp/logfile.txt && mv frontend-main/* . &> /tmp/logfile.txt && mv static/* . &> /tmp/logfile.txt
+unzip /tmp/frontend.zip &>> /tmp/logfile.txt && mv frontend-main/* . &>> /tmp/logfile.txt && mv static/* . &>> /tmp/logfile.txt
 statuscheck $?
 print "Update roboshop Configuration"
-mv localhost.conf /etc/nginx/default.d/roboshop.conf &> /tmp/logfile.txt
+mv localhost.conf /etc/nginx/default.d/roboshop.conf &>> /tmp/logfile.txt
 statuscheck $?
 print "Starting Nginx"
-systemctl restart nginx &> /tmp/logfile.txt && systemctl enable nginx &> /tmp/logfile.txt
+systemctl restart nginx &>> /tmp/logfile.txt && systemctl enable nginx &>> /tmp/logfile.txt
 statuscheck $?
 
 
