@@ -22,7 +22,7 @@ print "Installing Nginx"
 yum install nginx -y &>> /tmp/logfile.txt
 statuscheck $?
 print "Downloading Nginx content"
-curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zi" &>> /tmp/logfile.txt
+curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip" &>> /tmp/logfile.txt
 statuscheck $?
 print "Cleanup old nginx content"
 cd /usr/share/nginx/html
@@ -37,6 +37,9 @@ statuscheck $?
 print "Starting Nginx"
 systemctl restart nginx &>> /tmp/logfile.txt && systemctl enable nginx &>> /tmp/logfile.txt
 statuscheck $?
+
+
+
 
 
 
