@@ -27,7 +27,7 @@ cd /usr/share/nginx/html
 rm -rf *
 statuscheck $?
 print "Extracting Archive"
-unzip /tmp/frontend.zip && mv frontend-main/* . && mv static/* .
+unzip /tmp/frontend.zip && mv frontend-main/* . && mv static/* . &>> /tmp/logfile.txt
 statuscheck $?
 print "Update roboshop Configuration"
 mv localhost.conf /etc/nginx/default.d/roboshop.conf
