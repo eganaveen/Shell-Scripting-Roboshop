@@ -20,7 +20,7 @@ print "installing Nginx"
 yum install nginx -y
 statuscheck $?
 print "Downloading Nginx content"
-curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zi"
+curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip"
 statuscheck $?
 print "Cleanup old nginx content and Extract new download archive file and load confiuration file"
 cd /usr/share/nginx/html
