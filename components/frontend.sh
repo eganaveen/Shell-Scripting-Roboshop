@@ -17,7 +17,7 @@ if [ "$USER_ID" -ne 0 ]; then
     exit 1
 fi
 print "installing Nginx"
-yum install nginx -y
+yum install nginx -y &>> /tmp/logfile.txt
 statuscheck $?
 print "Downloading Nginx content"
 curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip"
@@ -33,8 +33,8 @@ print "Update roboshop Configuration"
 mv localhost.conf /etc/nginx/default.d/roboshop.conf
 statuscheck $?
 print "starting Nginx"
-systemctl restart nginx
+systemctl restart nginx && systemctl enable nginx
 statuscheck $?
-systemctl enable nginx
+
 
 
