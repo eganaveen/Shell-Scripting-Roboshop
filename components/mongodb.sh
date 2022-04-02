@@ -35,7 +35,7 @@ curl -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongo
 statuscheck $?
 print "Extracting Archive"
 cd /tmp
-unzip mongodb.zip &>> /tmp/logfile.txt
+unzip mongodb.zip -y &>> /tmp/logfile.txt
 statuscheck $?
 print "Load the application"
 cd mongodb-main
