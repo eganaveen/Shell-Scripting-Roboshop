@@ -32,7 +32,8 @@ print "Extracting Archive"
 unzip /tmp/frontend.zip &>> /tmp/logfile.txt && mv frontend-main/* . &>> /tmp/logfile.txt && mv static/* . &>> /tmp/logfile.txt
 statuscheck $?
 print "Update roboshop Configuration"
-mv localhost.conf /etc/nginx/default.d/roboshop.conf &>> /tmp/logfile.txt
+mv localhost.conf /etc/nginx/default.d/roboshop.conf &>> /tmp/logfile.txt &&
+sed -i -e '/catalogue/s/localhost/catalogue.roboshop.interna/' /etc/nginx/default.d/roboshop.conf &>> /tmp/logfile.txt
 statuscheck $?
 print "Starting Nginx"
 systemctl restart nginx &>> /tmp/logfile.txt && systemctl enable nginx &>> /tmp/logfile.txt
