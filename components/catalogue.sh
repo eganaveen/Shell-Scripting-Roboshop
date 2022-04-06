@@ -53,5 +53,13 @@ statuscheck $?
 print "Fix the app user permissions"
 chown -R ${app_user}:${app_user} /home/${app_user}
 statuscheck $?
-#print "Uodate syatemD cofiguration file"
-#sed -i "s/"
+print "Uodate syatemD cofiguration file"
+sed -e -i 's/MONGO_DNSNAME/mongodb.roboshop.interna/' /home/roboshop/catalogue/systemd.service &>> /tmp/logfile.txt &&
+mv /home/roboshop/catalogue/systemd.service /etc/systemd/system/catalogue.service &>> /tmp/logfile.txt
+statuscheck $?
+
+print "Start catalogue service"
+systemctl daemon-reload &>> /tmp/logfile.txt &&
+systemctl restart catalogue &>> /tmp/logfile.txt &&
+systemctl enable catalogue &>> /tmp/logfile.txt
+statuscheck $?
