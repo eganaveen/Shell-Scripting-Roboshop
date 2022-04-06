@@ -8,8 +8,9 @@ statuscheck(){
       exit 1
   fi
 }
-# crate variable for user
-username=roboshop
+# crate variable for app_user
+app_user=roboshop
+
 print(){
   echo -e "\e[36m $1 \e[0m"
 }
@@ -26,17 +27,27 @@ statuscheck $?
 print "install NodeJS"
 yum install nodejs gcc-c++ -y &>> /tmp/logfile.txt
 statuscheck $?
-print "add User"
-useradd "${username}" &>> /tmp/logfile.txt
+
+print "add application User"
+id $app_user >> /tmp/logfile.txt
+if [ $? -ne 0 ]; then
+    useradd ${app_user} &>> /tmp/logfile.txt
+    statuscheck $?
+fi
+
+
 statuscheck $?
 print "Download catalogue appliaction"
 curl -s -L -o /tmp/catalogue.zip "https://github.com/roboshop-devops-project/catalogue/archive/main.zip" &>> /tmp/logfile.txt
 statuscheck $?
+print "Cleanup old content"
+rm -rf /home/${app_user}/catalogue &>> /tmp/logfile.txt
+statuscheck $?
 print "Extracting archive file"
-cd /home/roboshop &>> /tmp/logfile.txt && unzip /tmp/catalogue.zip &>> /tmp/logfile.txt
+cd /home/${app_user} &>> /tmp/logfile.txt && unzip -o /tmp/catalogue.zip &>> /tmp/logfile.txt
 statuscheck $?
 print "move and change the directory path and install npm"
-mv catalogue-main catalogue &>> /tmp/logfile.txt  && cd /home/roboshop/catalogue &>> /tmp/logfile.txt && npm install &>> /tmp/logfile.txt
+mv catalogue-main catalogue &>> /tmp/logfile.txt  && cd /home/${app_user}/catalogue &>> /tmp/logfile.txt && npm install &>> /tmp/logfile.txt
 statuscheck $?
 #print "Uodate syatemD cofiguration file"
 #sed -i "s/"
