@@ -49,5 +49,9 @@ statuscheck $?
 print "move and change the directory path and install npm"
 mv catalogue-main catalogue &>> /tmp/logfile.txt  && cd /home/${app_user}/catalogue &>> /tmp/logfile.txt && npm install &>> /tmp/logfile.txt
 statuscheck $?
+
+print "Fix the app user permissions"
+chown -R ${app_user}:${app_user} /home/${app_user}
+statuscheck $?
 #print "Uodate syatemD cofiguration file"
 #sed -i "s/"
